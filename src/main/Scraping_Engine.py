@@ -36,7 +36,7 @@ class Scraping_Engine:
         '''
         Scrape all sites in the config file (data).
         '''
-        if self._driver is None:
+        if not hasattr(self, '_driver'):
             self._driver = self._set_up_headless_driver()
         for index, row in self._data.iterrows():
             self.scrape(row)
