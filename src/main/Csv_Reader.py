@@ -38,4 +38,3 @@ class Csv_Reader:
             Data read from CSV.
         '''
         return self._data
-    

@@ -7,9 +7,9 @@ from datetime import datetime
     
 def main():
     current_datetime = datetime.now()
-    CONFIG_PATH = 'C:\\Users\\Adriel\\Documents\\Python Scripts\\Scraping\\Config\\job_ad_sites.csv'
-    STOPWORD_PATH = 'C:\\Users\\Adriel\\Documents\\Python Scripts\\Scraping\\Config\\stopwords.txt'
-    REPORT_PATH = 'C:\\Users\\Adriel\\Documents\\Python Scripts\\Scraping\\Report\\'
+    CONFIG_PATH = '..\\..\\Config\\job_ad_sites.csv'
+    STOPWORD_PATH = '..\\..\\Config\\stopwords.txt'
+    REPORT_PATH = '..\\..\\Report\\'
     REPORT_NAME = "JobReport_" + current_datetime.strftime("%Y%m%d_%H%M%S") + ".txt"
     REPORT_TITLE = "Software Developer Job Report on " + current_datetime.strftime("%d/%m/%Y %H:%M:%S")
     KEYWORD_NAME = "JobKeyword_" + current_datetime.strftime("%Y%m%d_%H%M%S") + ".txt"

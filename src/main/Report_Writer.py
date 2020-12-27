@@ -76,4 +76,3 @@ class Report_Writer:
         '''
         with open(self._filepath + self._filename, 'a', encoding='utf-8') as f:
             f.write(text + '\n')
-            
