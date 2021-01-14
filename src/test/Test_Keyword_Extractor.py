@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 import unittest
-import Keyword_Extractor as ke
 from scipy.sparse import coo_matrix
 import numpy as np
 import os
+from src.__init__ import get_root_path
+import src.Keyword_Extractor as ke
 
 class Test_Keyword_Extractor(unittest.TestCase):
     
     def setUp(self):
-        self.TEST_FILENAME = 'C:\\Users\\Adriel\\Documents\\Python Scripts\\Scraping\\Config\\stopwords_test.txt'
-        with open(self.TEST_FILENAME, 'w', encoding='utf-8') as f:
+        self.TEST_FILENAME = get_root_path() + 'Config\\stopwords_test.txt'
+        with open(self.TEST_FILENAME, 'w+', encoding='utf-8') as f:
            f.write('hello\nworld')
            
         self.expected_stop_word_set = frozenset({'hello', 'world'})

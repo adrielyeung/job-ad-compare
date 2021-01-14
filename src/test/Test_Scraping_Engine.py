@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*
 import unittest
-import Scraping_Engine as se
 from unittest.mock import patch
 from unittest.mock import MagicMock
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import unicodedata
+import src.Scraping_Engine as se
 
 class Test_Scraping_Engine(unittest.TestCase):
     
@@ -27,7 +27,7 @@ class Test_Scraping_Engine(unittest.TestCase):
     
     @patch('selenium.webdriver.chrome.webdriver.WebDriver')
     @patch('bs4.element.Tag')
-    @patch('Element_Finder.Element_Finder')
+    @patch('src.Element_Finder.Element_Finder')
     @patch('pandas.Series')
     @patch('requests.get')
     def test_scrape(self, mock_get_requests, mock_row, mock_element_finder, mock_tag, mock_driver):
