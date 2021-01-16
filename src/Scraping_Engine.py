@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException
-import Element_Finder as ef
+import src.Element_Finder as ef
 import requests
 import unicodedata
 

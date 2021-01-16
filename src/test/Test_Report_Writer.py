@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 import unittest
 import os
-import Report_Writer as rw
+import src.Report_Writer as rw
+from src.__init__ import get_root_path
 
 class Test_Report_Writer(unittest.TestCase):
     
     TEST_FILENAME = 'Report_test.txt'
-    TEST_PATH = 'C:\\Users\\Adriel\\Documents\\Python Scripts\\Scraping\\Report\\'
+    TEST_PATH = get_root_path() + 'Report\\'
     TEST_TITLE = 'Test title'
     TEST_STRING1 = '1'
     TEST_STRING2 = '2'
