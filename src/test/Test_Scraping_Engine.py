@@ -11,10 +11,12 @@ class Test_Scraping_Engine(unittest.TestCase):
     
     DRIVER_PATH = 'C:\\Users\\Adriel\\Downloads\\chromedriver_win32\\chromedriver'
     TEST_STRING = 'Hello World'
+    TEST_CATEGORY = 'Test category'
+    TEST_LOCATION = 'Location'
     
     @patch('pandas.DataFrame')
     def setUp(self, mock_dataframe):
-        self.test_scraping_engine = se.Scraping_Engine(mock_dataframe)
+        self.test_scraping_engine = se.Scraping_Engine(mock_dataframe, self.TEST_CATEGORY, self.TEST_LOCATION)
     
     def test__set_up_headless_driver(self):
         options = Options()

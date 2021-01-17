@@ -15,16 +15,17 @@ class Test_Keyword_Extractor(unittest.TestCase):
            
         self.expected_stop_word_set = frozenset({'hello', 'world'})
         self.test_list = ['hello world', 'this is a testing class', 'this', 'ends']
+        self.omit_list = ['hello world'] * 4
         row  = np.array([0, 3, 1, 0])
         col  = np.array([0, 3, 1, 2])
         data = np.array([4, 5, 7, 9])
         self.test_matrix = coo_matrix((data, (row, col)), shape=(4, 4))
         
-        self.test_extractor = ke.KeywordExtractor(self.TEST_FILENAME, self.test_list)
+        self.test_extractor = ke.KeywordExtractor(self.TEST_FILENAME, self.test_list, self.omit_list, self.omit_list)
         self.actual_tuple = self.test_extractor._sort_coo(self.test_matrix)
         
     def test_extract(self):
-        self.test_extractor.extract(self.test_list)
+        self.test_extractor.extract(self.test_list, self.omit_list)
         self.assertNotEqual([], self.test_extractor.keyword_list)
         
     def test__get_stop_words(self):
@@ -67,7 +68,31 @@ class Test_Keyword_Extractor(unittest.TestCase):
         for idx in range(len(feature_vals)):
             expected_results[feature_vals[idx]] = score_vals[idx]
         
-        actual_results = self.test_extractor._extract_top_n_from_vector(self.test_list, self.actual_tuple, n)
+        actual_results = self.test_extractor._extract_top_n_from_vector(self.test_list, self.actual_tuple, '', n)
+        self.assertEqual(expected_results, actual_results)
+    
+    def test__extract_top_n_from_vector_omission(self):
+        n = 10
+        
+        sorted_items = self.actual_tuple[:n]
+        
+        score_vals = []
+        feature_vals = []
+        
+        # Word index and corresponding TfIdf score
+        for idx, score in sorted_items:
+            # Keep track of feature name and its corresponding score
+            score_vals.append(round(score, 3))
+            feature_vals.append(self.test_list[idx])
+            
+        # Create a dictionary of (feature, score)
+        expected_results = {}
+        for idx in range(len(feature_vals)):
+            if feature_vals[idx] == "hello world":
+                continue
+            expected_results[feature_vals[idx]] = score_vals[idx]
+        
+        actual_results = self.test_extractor._extract_top_n_from_vector(self.test_list, self.actual_tuple, self.omit_list[0], n)
         self.assertEqual(expected_results, actual_results)
         
     def tearDown(self):

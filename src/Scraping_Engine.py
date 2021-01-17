@@ -6,11 +6,12 @@ from selenium.common.exceptions import NoSuchElementException
 import src.Element_Finder as ef
 import requests
 import unicodedata
+import re
 
 class Scraping_Engine:
     DRIVER_PATH = 'C:\\Users\\Adriel\\Downloads\\chromedriver_win32\\chromedriver'
     
-    def __init__(self, data):
+    def __init__(self, data, category, location):
         '''
         Initialises the scraping engine.
 
@@ -18,12 +19,20 @@ class Scraping_Engine:
         ----------
         data : Pandas dataframe
             Dataframe of config file (listing of all sites and HTML tags to scrape for).
+        
+        category : string
+            Filter job category read from GUI (input by user).
+        
+        location : string
+            Filter location of job read from GUI (input from user).
 
         Returns
         -------
         None.
         '''
         self._data = data
+        self.category = category
+        self.location = location
         self._element_finder = ef.Element_Finder()
         self.site_list = []
         self.title_list = []
@@ -46,7 +55,11 @@ class Scraping_Engine:
         Scrape site for HTML tags as described in row self._row in the Pandas dataframe.
         '''
         self._row = row
-        page = requests.get(self._row['Listing_URL'])
+        separator = self._row['Search_keyword_separator']
+        category_URL = self._convert_to_URL(self.category, separator)
+        location_URL = self._convert_to_URL(self.location, separator)
+        fetch_URL = self._row['Listing_URL'].format(job_query=category_URL, location_query=location_URL)
+        page = requests.get(fetch_URL)
         soup = BeautifulSoup(page.content, 'html.parser')
         results = self._element_finder.find_item_by(self._row, soup, 'Result')
         job_elems = self._element_finder.find_all_by(self._row, results, 'Element')
@@ -76,6 +89,8 @@ class Scraping_Engine:
                     content = self._driver.find_element_by_xpath(self._row['Description_tag'])
                 if not content is None:
                     self.description_list.append('\nDescription\n===========\n' + content.text + '\n')
+                else:
+                    self.description_list.append('\nDescription\n===========\nNot found\n')
             except (KeyError, NoSuchElementException):
                 continue
         
@@ -118,3 +133,24 @@ class Scraping_Engine:
             return unicodedata.normalize(normal_form, bs_object.text.strip()) + '\n'
         else:
             return 'Not found\n'
+    
+    def _convert_to_URL(self, text, separator):
+        '''
+        Converts a normal human-readable string into a URL-style string, with all spaces replaced by separator.
+
+        Parameters
+        ----------
+        text : string
+            Input text to convert.
+        separator : string
+            Separator in the URL (e.g. - / +)
+
+        Returns
+        -------
+        text : string
+            Input text with all spaces replaced by separator.
+
+        '''
+        text = text.lower()
+        text = re.sub('\s+', separator, text)
+        return text
