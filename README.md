@@ -7,10 +7,10 @@ Project is still in development, current status is that the descriptions could b
 
 From testing results, it seems that some irrevelant words often show up as keywords, thus the stopword list needs to be modified.
 
-What's new - 18/1/2021
+What's new - 31/1/2021
 ----------------------
 1. Added GUI to control scraping configurations. Logic is handled by GUI.py and the GUI file is in src/resources/scraping.ui (designed with Qt Designer).
-2. Removal of company name and location from keywords found, will be replaced by next important keyword.
+2. Removal of all words found in title, company name and location from keywords extracted, and search keywords, will be replaced by next important keywords.
 
 How to use
 ----------
