@@ -63,16 +63,14 @@ class ScrapingGUI(ResizableQDialog):
             self.startScrapeButton.setEnabled(True)
             return
         
-        sc.main(self.configLineEdit.text(), self.stopwordLineEdit.text(), self.reportLineEdit.text(), self.categoryLineEdit.text(), self.locationLineEdit.text(), self.msgLabel)
-        
-        # try:
-        #     sc.main(self.configLineEdit.text(), self.stopwordLineEdit.text(), self.reportLineEdit.text(), self.categoryLineEdit.text(), self.locationLineEdit.text(), self.msgLabel)
-        # except Exception as e:
-        #     pal.setColor(QtGui.QPalette.WindowText, QtGui.QColor("red"))
-        #     self.msgLabel.setPalette(pal)
-        #     self.msgLabel.setText('{}'.format(repr(e)))
-        # finally:
-        #     self.startScrapeButton.setEnabled(True)
+        try:
+            sc.main(self.configLineEdit.text(), self.stopwordLineEdit.text(), self.reportLineEdit.text(), self.categoryLineEdit.text(), self.locationLineEdit.text(), self.msgLabel)
+        except Exception as e:
+            pal.setColor(QtGui.QPalette.WindowText, QtGui.QColor("red"))
+            self.msgLabel.setPalette(pal)
+            self.msgLabel.setText('{}'.format(repr(e)))
+        finally:
+            self.startScrapeButton.setEnabled(True)
         
     def browse_config(self):
         self.browse(self.configLineEdit, "*.csv")

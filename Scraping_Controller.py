@@ -7,10 +7,10 @@ from datetime import datetime
     
 def main(config_path, stopword_path, report_path, category, location, msgLabel):
     current_datetime = datetime.now()
-    REPORT_NAME = "JobReport_" + current_datetime.strftime("%Y%m%d_%H%M%S") + ".txt"
-    REPORT_TITLE = "Software Developer Job Report on " + current_datetime.strftime("%d/%m/%Y %H:%M:%S")
-    KEYWORD_NAME = "JobKeyword_" + current_datetime.strftime("%Y%m%d_%H%M%S") + ".txt"
-    KEYWORD_TITLE = "Software Developer Job Report (Extract) on " + current_datetime.strftime("%d/%m/%Y %H:%M:%S")
+    REPORT_NAME = category.replace(' ', '') + "JobReport_" + current_datetime.strftime("%Y%m%d_%H%M%S") + ".txt"
+    REPORT_TITLE = category + " Job Report in " + location + " on " + current_datetime.strftime("%d/%m/%Y %H:%M:%S")
+    KEYWORD_NAME = category.replace(' ', '') + "JobKeyword_" + current_datetime.strftime("%Y%m%d_%H%M%S") + ".txt"
+    KEYWORD_TITLE = category + " Job Keyword in " + location + " on " + current_datetime.strftime("%d/%m/%Y %H:%M:%S")
     SEPARATOR = '=======================================================================================================================================================\n\n'
     msg = ""
     
@@ -26,7 +26,7 @@ def main(config_path, stopword_path, report_path, category, location, msgLabel):
     msg += "Scrape completed\nStart keyword extraction\n"
     
     msgLabel.setText(msg)
-    extractor = ke.KeywordExtractor(stopword_path, engine.description_list, engine.company_list, engine.location_list)
+    extractor = ke.KeywordExtractor(stopword_path, engine.description_list, engine.title_list, engine.company_list, engine.location_list, category + ' ' + location)
     extractor.extract_each_text()
     keyword_writer = rw.Report_Writer(KEYWORD_NAME, report_path)
     keyword_writer.write_title(KEYWORD_TITLE)
