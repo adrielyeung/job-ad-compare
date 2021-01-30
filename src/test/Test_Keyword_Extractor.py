@@ -21,7 +21,7 @@ class Test_Keyword_Extractor(unittest.TestCase):
         data = np.array([4, 5, 7, 9])
         self.test_matrix = coo_matrix((data, (row, col)), shape=(4, 4))
         
-        self.test_extractor = ke.KeywordExtractor(self.TEST_FILENAME, self.test_list, self.omit_list, self.omit_list)
+        self.test_extractor = ke.KeywordExtractor(self.TEST_FILENAME, self.test_list, self.omit_list, self.omit_list, self.omit_list, self.omit_list[0])
         self.actual_tuple = self.test_extractor._sort_coo(self.test_matrix)
         
     def test_extract(self):

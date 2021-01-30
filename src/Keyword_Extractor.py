@@ -10,7 +10,7 @@ class KeywordExtractor:
     MAX_DF = 0.85
     NUM_KEYWORDS = 10
     
-    def __init__(self, stopword_path, description_list, company_list, location_list):
+    def __init__(self, stopword_path, description_list, title_list, company_list, location_list, skip_words):
         '''
         Initialises the keyword extractor.
 
@@ -20,10 +20,14 @@ class KeywordExtractor:
             File path of stopword list to use.
         description_list : list
             List of job descriptions (texts to extract keywords from).
+        title_list : list
+            List of job titles (these words will be omitted from keyword)
         company_list : list
             List of company names (these words will be omitted from keyword)
         location_list : list
             List of job locations (these words will be omitted from keyword)
+        skip_words : string
+            A string of other words to omit (fixed processing for all keywords)
 
         Returns
         -------
@@ -35,8 +39,10 @@ class KeywordExtractor:
         else:
             self._count_vectorizer = CountVectorizer(max_df= self.MAX_DF, stop_words = 'english')
         self._description_list = description_list
+        self._title_list = title_list
         self._company_list = company_list
         self._location_list = location_list
+        self._skip_words = skip_words
         self._word_count_vector = self._count_vectorizer.fit_transform(self._description_list)
         self._tfidf_transformer = TfidfTransformer(smooth_idf=True, use_idf=True)
         self._tfidf_transformer.fit(self._word_count_vector)
@@ -78,8 +84,8 @@ class KeywordExtractor:
         None.
         '''
         self._company_keyword_list = []
-        for company_name, location in zip(self._company_list, self._location_list):
-            self._company_keyword_list.append(self._pre_process(company_name) + ' ' + self._pre_process(location))
+        for title, company_name, location in zip(self._title_list, self._company_list, self._location_list):
+            self._company_keyword_list.append(self._pre_process(title) + ' ' + self._pre_process(company_name) + ' ' + self._pre_process(location) + ' ' + self._pre_process(self._skip_words))
             
         self.extract(self._description_list, self._company_keyword_list)
     
