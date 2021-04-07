@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from unittest.mock import patch
-import src.Element_Finder as ef
+import src.Element_Finder_old as ef
 
 class Test_Element_Finder(unittest.TestCase):
     LEVEL = 'Result'

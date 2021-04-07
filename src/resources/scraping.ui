@@ -106,11 +106,22 @@
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="startScrapeButton">
-         <property name="text">
-          <string>Start scraping</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QPushButton" name="startScrapeButton">
+           <property name="text">
+            <string>Start scraping and keyword extraction</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="startWriteExcelButton">
+           <property name="text">
+            <string>Start generate Excel report</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
