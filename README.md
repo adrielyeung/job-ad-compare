@@ -7,10 +7,11 @@ Project is still in development, current status is that the descriptions could b
 
 From testing results, it seems that some irrevelant words often show up as keywords, thus the stopword list needs to be modified.
 
-What's new - 31/1/2021
+What's new - 7/4/2021
 ----------------------
-1. Added GUI to control scraping configurations. Logic is handled by GUI.py and the GUI file is in src/resources/scraping.ui (designed with Qt Designer).
-2. Removal of all words found in title, company name and location from keywords extracted, and search keywords, will be replaced by next important keywords.
+1. Standardise to use Selenium web driver to scrape all information.
+2. New feature to allow writing jobs to Excel file.
+3. Enable separation of job description from skills/qualifications (new section).
 
 How to use
 ----------
@@ -22,8 +23,8 @@ For my testing and thought process, please refer to the Jupyter notebooks in ```
 
 Future developments
 -------------------
-1. (IN PROGRESS) Generalise the program to be able to take in any query keywords (i.e. variable in the ```?q={}``` in the URL) for job role and location.
-2. Scraping of multiple pages of results.
+1. (DONE) Generalise the program to be able to take in any query keywords (i.e. variable in the ```?q={}``` in the URL) for job role and location.
+2. (DONE) Scraping of multiple pages of results.
 3. Addition of certain fake keywords to the stopword list (need further testing to identify).
 4. (DONE) Removal of company name for keyword result, replaced by the next word.
 5. (IN PROGRESS) Addition of a UI for inputting new scraping sites and HTML tags, also to trigger whole scraping process.
