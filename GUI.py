@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import sys, os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import pyqtSlot, pyqtSignal
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QDialog, QFileDialog, QApplication, QLabel
 from PyQt5.uic import loadUi
 from src.__init__ import get_root_path
 import Scraping_Controller as sc
+from datetime import datetime
 
 class ExtendedQLabel(QLabel):
     clicked = pyqtSignal(str)
@@ -48,9 +49,16 @@ class ScrapingGUI(ResizableQDialog):
         self.stopwordButton.clicked.connect(self.browse_stopword)
         self.reportButton.clicked.connect(self.browse_report)
         
-        self.startScrapeButton.clicked.connect(self.start)
+        self.startScrapeButton.clicked.connect(self.start_scrape)
+        self.startWriteExcelButton.clicked.connect(self.start_excel)
         
-    def start(self):
+    def start_scrape(self):
+        self.start()
+    
+    def start_excel(self):
+        self.start(excel=True)
+        
+    def start(self, excel=False):
         pal = self.msgLabel.palette()
         pal.setColor(QtGui.QPalette.WindowText, QtGui.QColor("black"))
         self.msgLabel.setPalette(pal)
@@ -63,8 +71,12 @@ class ScrapingGUI(ResizableQDialog):
             self.startScrapeButton.setEnabled(True)
             return
         
+        scraping_start_time = datetime.now()
         try:
-            sc.main(self.configLineEdit.text(), self.stopwordLineEdit.text(), self.reportLineEdit.text(), self.categoryLineEdit.text(), self.locationLineEdit.text(), self.msgLabel)
+            if excel:
+                sc.main_excel(self.configLineEdit.text(), self.stopwordLineEdit.text(), self.reportLineEdit.text(), self.categoryLineEdit.text(), self.locationLineEdit.text(), self.msgLabel, scraping_start_time)
+            else:
+                sc.main(self.configLineEdit.text(), self.stopwordLineEdit.text(), self.reportLineEdit.text(), self.categoryLineEdit.text(), self.locationLineEdit.text(), self.msgLabel, scraping_start_time)
         except Exception as e:
             pal.setColor(QtGui.QPalette.WindowText, QtGui.QColor("red"))
             self.msgLabel.setPalette(pal)

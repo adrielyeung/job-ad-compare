@@ -13,10 +13,6 @@ class Report_Writer:
             File name.
         filepath : string
             Directory path (without filename).
-
-        Returns
-        -------
-        None.
         '''
         self._filename = filename
         self._filepath = filepath
@@ -30,10 +26,6 @@ class Report_Writer:
         ----------
         title : string
             DESCRIPTION.
-
-        Returns
-        -------
-        None.
         '''
         with open(self._filepath + self._filename, 'w', encoding='utf-8') as f:
             f.write(title + '\n')
@@ -50,10 +42,6 @@ class Report_Writer:
             Lists should be ordered in the way they are shown in the report.
             E.g. [title1, title2, ...], [content1, content2, ...], [ending1, ending2, ...]
             for a report with title, followed by content, finally ending.
-
-        Returns
-        -------
-        None.
         '''
         zipped = list(zip(*lists))
         with open(self._filepath + self._filename, 'a', encoding='utf-8') as f:
@@ -69,10 +57,6 @@ class Report_Writer:
         ----------
         text : string
             Text to write.
-
-        Returns
-        -------
-        None.
         '''
         with open(self._filepath + self._filename, 'a', encoding='utf-8') as f:
             f.write(text + '\n')

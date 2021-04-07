@@ -19,14 +19,8 @@ class Csv_Reader:
         None.
         '''
         self._filepath = filepath
-        self._data = pd.read_csv(self._filepath)
-        self._data.fillna(-999999, inplace=True)
-        self._data.Result_item = self._data.Result_item.astype(int)
-        self._data.Title_item = self._data.Title_item.astype(int)
-        self._data.Company_item = self._data.Company_item.astype(int)
-        self._data.Location_item = self._data.Location_item.astype(int)
-        self._data.Description_item = self._data.Description_item.astype(int)
-        self._data.URL_item = self._data.URL_item.astype(int)
+        self._data = pd.read_csv(self._filepath, encoding="utf-8")
+        self._data.fillna("", inplace=True)
     
     def get_data(self):
         '''
